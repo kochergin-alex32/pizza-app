@@ -1,10 +1,37 @@
-import React from 'react'
+import React,{useRef,useState} from 'react'
 
 function Sort() {
+  const sortTypes = ['популярности', 'цене', 'алфавиту'];
+ const [sort,setSort]= useState(0);
+ const [isOpen,setIsOpen]=useState(false);
+ const [isUp,setIsUp]= useState(true)
+
+let svgStyle = (!isUp)? 'sortSvg sortSvg__sort-down':'sortSvg';
+
+// function clickDvgHandler(e){
+//   setIsUp(!isUp)
+//   let svg = e.target
+//   if(!e.target.matches('svg')){
+//     svg = e.target.parentElement
+//   }
+//   svg.classList.toggle('sortSvg__sort-down')
+// }
+
+
+// let svgRef = useRef(null)
+// function clickDvgHandler(){
+//   // console.log(svgRef.current);
+//   svgRef.current.classList.toggle('sortSvg__sort-down')
+// }
   return (
     <div className="sort">
               <div className="sort__label">
-                <svg
+                <svg 
+                // ref={svgRef}
+                className={svgStyle}
+                // className='sortSvg'
+                onClick={()=>setIsUp(!isUp)}
+                // onClick={clickDvgHandler}
                   width="10"
                   height="6"
                   viewBox="0 0 10 6"
@@ -17,15 +44,20 @@ function Sort() {
                   />
                 </svg>
                 <b>Сортировка по:</b>
-                <span>популярности</span>
+                <span onClick={()=>setIsOpen(!false)}>{sortTypes[sort]}</span>
               </div>
-              <div className="sort__popup">
+              { isOpen &&
+              (<div className="sort__popup">
                 <ul>
-                  <li className="active">популярности</li>
-                  <li>цене</li>
-                  <li>алфавиту</li>
+                  {
+                    sortTypes.map((type,ind)=>(
+                      <li onClick={()=>{setSort(ind);setIsOpen(false)}} key={ind} className={sort==ind ? 'active': ''}>{type}</li>
+                    ))
+                  }
+                 
                 </ul>
-              </div>
+              </div>)
+              }
             </div>
   )
 }
