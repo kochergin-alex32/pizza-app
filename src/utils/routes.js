@@ -1,3 +1,5 @@
+
+import Layout from "../components/Layout"
 import Home from "../Pages/Home"
 import Cart from "../Pages/Cart"
 import NotFound from "../Pages/NotFound"
@@ -23,16 +25,34 @@ export const routes =
     //     ]
     //   },
 
+    // {
+    //   path:HOME_ROUTE,
+    //   element:<Home pizzas={[1,2,3]}/>
+    // },
+    // {
+    //   path:CART_ROUTE,
+    //   element:<Cart/>
+    // },
+    // {
+    //     path:'*',
+    //     element:<NotFound/>
+    //   },
     {
-      path:HOME_ROUTE,
-      element:<Home pizzas={[1,2,3]}/>
+      path: '/',
+      element: <Layout />,
+      children: [
+        {
+          path: HOME_ROUTE,
+          element: <Home pizzas={[1, 2, 3]} loading={true} />
+        },
+        {
+          path: CART_ROUTE,
+          element: <Cart />
+        },
+        {
+          path: '*',
+          element: <NotFound />
+        },
+      ]
     },
-    {
-      path:CART_ROUTE,
-      element:<Cart/>
-    },
-    {
-        path:'*',
-        element:<NotFound/>
-      },
   ]
