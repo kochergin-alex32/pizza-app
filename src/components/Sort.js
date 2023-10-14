@@ -1,15 +1,19 @@
 import React,{useRef,useState, useContext} from 'react'
+import { useDispatch, useSelector } from 'react-redux';
 import { AppContext } from '../components/App'
+import { setSort } from '../store/slices/filterSlice';
 
 function Sort() {
+  const {type,isUp} = useSelector(state=>state.filter.sort)
+  const dispatch = useDispatch()
   const sortTypes = ['популярности', 'цене', 'алфавиту'];
  
  const [isOpen,setIsOpen]=useState(false);
 
- const {activeSort,setActiveSort} =  useContext(AppContext);
+//  
+console.log(type,isUp);
 
-
-let svgStyle = (!activeSort.isUp)? 'sortSvg sortSvg__sort-down':'sortSvg';
+let svgStyle = (!isUp)? 'sortSvg sortSvg__sort-down':'sortSvg';
 
 // function clickDvgHandler(e){
 //   setIsUp(!isUp)
@@ -27,13 +31,14 @@ let svgStyle = (!activeSort.isUp)? 'sortSvg sortSvg__sort-down':'sortSvg';
 //   svgRef.current.classList.toggle('sortSvg__sort-down')
 // }
   return (
+    // <div></div>
     <div className="sort">
               <div className="sort__label">
                 <svg 
                 // ref={svgRef}
                 className={svgStyle}
                 // className='sortSvg'
-                onClick={()=>setActiveSort({type:activeSort.type,isUp:!activeSort.isUp})}
+                onClick={()=>dispatch(setSort({type:type,isUp:!isUp}))}
                 // onClick={clickDvgHandler}
                   width="10"
                   height="6"
@@ -47,14 +52,14 @@ let svgStyle = (!activeSort.isUp)? 'sortSvg sortSvg__sort-down':'sortSvg';
                   />
                 </svg>
                 <b>Сортировка по:</b>
-                <span onClick={()=>setIsOpen(!false)}>{sortTypes[activeSort.type]}</span>
+                <span onClick={()=>setIsOpen(!false)}>{sortTypes[type]}</span>
               </div>
               { isOpen &&
               (<div className="sort__popup">
                 <ul>
                   {
                     sortTypes.map((type,ind)=>(
-                      <li onClick={()=>{setActiveSort({type:ind,isUp:activeSort.isUp });setIsOpen(false)}} key={ind} className={activeSort.type==ind ? 'active': ''}>{type}</li>
+                      <li onClick={()=>{dispatch(setSort({type:ind,isUp:isUp }));setIsOpen(false)}} key={ind} className={type==ind ? 'active': ''}>{type}</li>
                     ))
                   }
                  

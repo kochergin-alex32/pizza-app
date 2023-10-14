@@ -14,9 +14,12 @@ const filterSlice = createSlice({
     reducers:{
         setCategory(state, action){
             state.category=action.payload;
+        },
+        setSort(state,action){
+            state.sort = action.payload
         }
     }
 })
 // экспортируем это двумя видами для дальнейшего использования
-export const {setCategory} = filterSlice.actions;
+export const {setCategory, setSort} = filterSlice.actions;
 export default filterSlice.reducer

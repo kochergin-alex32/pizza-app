@@ -10,8 +10,6 @@ function Home() {
   const {pizzas,setPizzas,loading,activeCategory,activeSort}= useContext(AppContext)
  
   
-  // // этот стейт нужн совместить с верхним
-  // const [isUp,setIsUp]= useState(true)
   
   
   return (
@@ -21,7 +19,9 @@ function Home() {
     <Categories  />
      <Sort />
    </div>
-   <h2 className="content__title">Все пиццы</h2>
+   {/* { loading==false ? (pizzas.length>0 ?<h2 className="content__title">Все пиццы</h2>:<h2 className="content__title">не найдено 😢</h2>):null} */}
+   { loading==false && (pizzas.length>0 ?<h2 className="content__title">Все пиццы</h2>:<h2 className="content__title">не найдено 😢</h2>)}
+   
    <div className="content__items">
      {!loading?
       pizzas.map(pizza =>(
