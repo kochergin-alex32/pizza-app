@@ -5,26 +5,29 @@ import { addItem } from '../store/slices/cartSlice';
 
 
 function PizzaBlock({id, imageUrl,title,types,sizes,price,category,rating}) {
-   
-    const cartItems = useSelector(state=>state.cart.items);
-    const dispatch = useDispatch()
-
-
-    const[activeSize, setActiveSize] = useState(0);
-    const[activeType, setActiveType] = useState(0);
-    // console.log(cartItems);
-    // const ind = useMemo(()=>{
-    //  return cartItems.findIndex(item => item.id==id)
-      
-    // },[id])
+  const cartItems = useSelector(state=>state.cart.items);
+  const dispatch = useDispatch()
   
-    
+  
+  const[activeSize, setActiveSize] = useState(0);
+  const[activeType, setActiveType] = useState(0);
+  
+  const item  = {id, imageUrl,title,price,activeSize,activeType}
+  
+  // let qty;
+  const [ind,qty] = useMemo(()=>{
+   let qty=0
     const ind = cartItems.findIndex(item => item.id == id);
-    let qty = 0 ;
+    console.log('memo');
     if (ind != -1){
-      console.log(ind);
-      qty = cartItems[ind].qty;
+     
+      qty = cartItems[ind].totalQty;
+      console.log('qty');
     }
+    return [ind,qty];
+  },[id,cartItems])
+    
+     
   return (
     <div className="pizza-block">
     <img
@@ -71,7 +74,7 @@ function PizzaBlock({id, imageUrl,title,types,sizes,price,category,rating}) {
     </div>
     <div className="pizza-block__bottom">
       <div className="pizza-block__price">от {price} ₽</div>
-      <div className="button button--outline button--add">
+      <div className="button button--outline button--add"  onClick={()=>dispatch(addItem(item))}>
         <svg
           width="12"
           height="12"
@@ -84,7 +87,7 @@ function PizzaBlock({id, imageUrl,title,types,sizes,price,category,rating}) {
             fill="white"
           />
         </svg>
-        <span onClick={()=>dispatch(addItem(id))}>Добавить</span>
+        <span>Добавить</span>
         <i>
           {qty}
         </i>
