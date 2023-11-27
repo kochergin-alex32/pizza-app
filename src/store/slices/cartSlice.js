@@ -114,12 +114,45 @@ const cartSlice= createSlice(
                 // state.total =
               },
             deleteItem(state,action){
+              const { id, imageUrl, title, price, activeSize, activeType } =
+                  action.payload;
+                  state.items.forEach(item=>{
+                    if(item.id==id){
+                      item.details.forEach(detailsItem=>{
+                        if(detailsItem.type==activeType){
+                          detailsItem.sizes.forEach((sizesItem,ind)=>{
+                            if(sizesItem.size == activeSize){
+                              if(sizesItem.qty<=1){
+                                detailsItem.sizes.splice(ind,1);
+                              }else{
+                                sizesItem.qty--;
+                              }
+                              item.totalQty--;
+                              state.count--;
+                              state.total= state.total-price
+                              if(state.count==0)state.items=[];
+                            }
+                          })
+                        }
+                      })
 
+                    }
+                  })
+
+            },
+            // deletePizza(state,action){
+            //   const ind = state.items.findIndex(item=>item.id == action.payload.id)
+            //   state.items.splice(ind,1)
+            // },
+            clearItems(state){
+              state.items=[];
+              state.count=0;
+              state.total = 0;
             }
         }
     }
 )
-export const {addItem, deleteItem} = cartSlice.actions;
+export const {addItem, deleteItem,clearItems,deletePizza} = cartSlice.actions;
 export default cartSlice.reducer;
 
 

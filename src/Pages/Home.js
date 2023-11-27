@@ -1,31 +1,40 @@
-import React,{useState,useEffect,useCallback, useContext}from 'react'
+import React,{memo,useState,useEffect,useCallback, useContext}from 'react'
 import Categories from '../components/Categories'
 import Sort from '../components/Sort'
 import PizzaBlock from '../components/PizzaBlock'
 import Skeleton from '../components/Skeleton'
 import { AppContext } from '../components/App'
+import { useDispatch, useSelector} from 'react-redux'
 
 
-function Home() {
-  const {pizzas,setPizzas,loading,activeCategory,activeSort}= useContext(AppContext)
+const Home = memo(function () {
+  const pizzas = useSelector((state)=>state.pizzas.items);
+  const status = useSelector(state=> state.pizzas.status);
+  const error = useSelector(state=> state.pizzas.error)
+  // console.log(pizzas);
+  const dispatch = useDispatch();
+  // const {loading}= useContext(AppContext);
  
-  
+  const [isClick, seyIsClick]= useState(false)
   
   
   return (
     <>
-   
+
+   {/* <button >isClick</button> */}
+
+
     <div className="content__top">
     <Categories  />
      <Sort />
    </div>
    {/* { loading==false ? (pizzas.length>0 ?<h2 className="content__title">Все пиццы</h2>:<h2 className="content__title">не найдено 😢</h2>):null} */}
-   { loading==false && (pizzas.length>0 ?<h2 className="content__title">Все пиццы</h2>:<h2 className="content__title">не найдено 😢</h2>)}
+   { status !== 'loading' && status !== 'rejected'  && (pizzas.length > 0 ?<h2 className="content__title">Все пиццы</h2>:<h2 className="content__title">не найдено 😢</h2>)}
    
    <div className="content__items">
-     {!loading?
+     {status == 'resolved' && status !== 'rejected' ?(
       pizzas.map(pizza =>(
-       <PizzaBlock key={pizza.id} {...pizza}/>
+       <PizzaBlock key={pizza.id} {...pizza}/>)
      ))
     //  тоже нужная логика
   //    pizzas.filter((item)=>{
@@ -36,19 +45,46 @@ function Home() {
   //    }).map(pizza =>(
   //    <PizzaBlock key={pizza.id} {...pizza}/>
   //  ))
-     :<div>
+     :( 
+      status == 'loading' ?
+     (<div>
        {
          [... new Array(10)].map((_,ind)=> <Skeleton key={ind}/>)
 
        }
 
      
-     </div>
-       }
+     </div>)
+     : 
+     (<h2 className="content__title">ошибка запроса на срвер попробуйте позже 😢</h2>)
+       )}
    </div>
    </>
+  // <>
+  //     <div className='content__top'>
+  //       <Categories />
+  //       <Sort />
+  //     </div>
+  //     {status == false &&
+  //       (pizzas.length > 0 ? (
+  //         <h2 className='content__title'>Все пиццы</h2>
+  //       ) : (
+  //         <h2 className='content__title'>Пиццы не найдены</h2>
+  //       ))}
+  //     <div className='content__items'>
+  //       {!status ? (
+  //         pizzas.map((pizza) => <PizzaBlock key={pizza.id} {...pizza} />)
+  //       ) : (
+  //         <div>
+  //           {[...new Array(10)].map((_, ind) => (
+  //             <Skeleton key={ind} />
+  //           ))}
+  //         </div>
+  //       )}
+  //     </div>
+  //   </>
   )
-}
+})
 
 export default Home
 

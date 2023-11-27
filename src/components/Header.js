@@ -1,11 +1,13 @@
 import React from 'react'
 import pizzaLogo from '../assets/img/pizza-logo.svg'
-import { Link,NavLink } from 'react-router-dom'
+import { Link,NavLink, useLocation } from 'react-router-dom'
 import Search from './Search'
 import { useSelector } from 'react-redux'
 function Header() {
   const {total, count} = useSelector(state=>state.cart)
   // const setActive = ({isActive})=>isActive? 'active-link':''
+  const location = useLocation();
+ 
   return (
     <div className="header">
         <div  className="container">
@@ -20,7 +22,8 @@ function Header() {
               <p>самая вкусная пицца во вселенной</p>
             </div>
           </Link>
-          <Search/>
+          {location.pathname!=='/cart'&&   <Search/>}
+         
           <div className="header__cart">
             <Link to="/cart" className="button button--cart">
               <span>{total} ₽</span>

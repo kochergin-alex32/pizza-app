@@ -1,18 +1,16 @@
-import React, { useContext, useRef, useState } from 'react'
-import { AppContext } from './App'
-
+import React, { useRef  } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import { setSearch } from '../store/slices/filterSlice';
 
 function Search() {
-  const{pizzas,setPizzas,setSearch}=useContext(AppContext)
-    // const[value, setValue]= useState('')
+  const pizzas = useSelector(state=>state.pizzas.items);
+ const dispatch = useDispatch();
     const inputRef = useRef(null)
 
 function searchHandler(){
   const value = inputRef.current.value;
- 
-setSearch(value)
-// inputRef.current.value = ""
-// setPizzas(filterred)
+dispatch(setSearch(value));
+
 }
 
   return (

@@ -1,6 +1,6 @@
-import React from 'react'
+import React, {memo} from 'react'
 
-function NotFound() {
+const NotFound = memo(function () {
   return (
     <div className='notFound-wrapper'>
       <h1>
@@ -12,6 +12,6 @@ function NotFound() {
 
     </div>
   )
-}
+})
 
 export default NotFound

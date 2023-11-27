@@ -17,9 +17,12 @@ const filterSlice = createSlice({
         },
         setSort(state,action){
             state.sort = action.payload
+        },
+        setSearch(state, action){
+            state.search = action.payload;
         }
     }
 })
 // экспортируем это двумя видами для дальнейшего использования
-export const {setCategory, setSort} = filterSlice.actions;
+export const {setCategory, setSort, setSearch} = filterSlice.actions;
 export default filterSlice.reducer
