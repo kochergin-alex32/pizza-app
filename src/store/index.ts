@@ -4,6 +4,7 @@ import { configureStore } from "@reduxjs/toolkit"
 import filterReducer from "./slices/filterSlice"
 import cartSlice from "./slices/cartSlice";
 import pizzasReduser from "./slices/pizzasSlice";
+import { typeOptions } from "@testing-library/user-event/dist/type/typeImplementation";
 
 // создаем пременную которая принимае финкцию которая включает с вебя объект редьюсер со стейтами каждого компонента приложения
 export const store = configureStore({
@@ -12,5 +13,7 @@ export const store = configureStore({
         cart: cartSlice,
         pizzas: pizzasReduser
     }
-})
-// console.log(store);
+});
+
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;

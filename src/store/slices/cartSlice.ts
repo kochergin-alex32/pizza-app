@@ -1,6 +1,23 @@
-import { createSlice } from "@reduxjs/toolkit";
-
-const initialState= {
+import { createSlice, PayloadAction  } from "@reduxjs/toolkit";
+import {Size, Type, Pizza} from '../../types/pizza'
+type ItemSize = {
+   size: Size;
+    qty: number;
+   }
+type Detail = {
+  type: Type;
+  sizes: ItemSize[];
+}
+type CartItem = Pick<Pizza,"id"|"imageUrl"|"title"|"price">&{
+  totalQty:number;
+  details: Detail[];
+}
+type CartState = {
+  items: CartItem[];
+    total:number;
+    count:number;
+}
+const initialState: CartState= {
     // id, imageUrl,title,price,qty:3
     items:[],
     total:0,
@@ -34,13 +51,13 @@ const cartSlice= createSlice(
         name:'cart',
         initialState,
         reducers:{
-            addItem(state, action) {
+            addItem(state, action: PayloadAction<Pick<Pizza,"id"|"imageUrl"|"title"|"price">&{activeSize: Size; activeType: Type}>) {
                 const { id, imageUrl, title, price, activeSize, activeType } =
                   action.payload;
                 const itemsInd = state.items.findIndex((item) => item.id == id);
           
                 if (itemsInd == -1) {
-                  const item = {
+                  const item: CartItem = {
                     id,
                     imageUrl,
                     title,
@@ -77,7 +94,7 @@ const cartSlice= createSlice(
                         state.total = state.total + price;
                     } else {
                       //Если нашли эл такого типа но сайза такого еще не было
-                      const sizesItem = {
+                      const sizesItem: ItemSize = {
                         size: activeSize,
                         qty: 1,
                       };
@@ -91,7 +108,7 @@ const cartSlice= createSlice(
                     console.log(JSON.stringify(state.items));
                   } else {
                     //если не нашли эл с таким типом тогда доюавляем ее впервые такого типа
-                    const detailsItem = {
+                    const detailsItem: Detail = {
                       type: activeType,
                       sizes: [
                         {
@@ -113,7 +130,10 @@ const cartSlice= createSlice(
                 // state.count = state.items.reduce((count, item) => count + item.qty, 0);
                 // state.total =
               },
-            deleteItem(state,action){
+            deleteItem(state,action: PayloadAction<Pick<Pizza,"id"|"imageUrl"|"title"|"price">&{
+              activeSize: Size;
+               activeType: Type;
+              }>){
               const { id, imageUrl, title, price, activeSize, activeType } =
                   action.payload;
                   state.items.forEach(item=>{
@@ -152,10 +172,10 @@ const cartSlice= createSlice(
         }
     }
 )
-export const {addItem, deleteItem,clearItems,deletePizza} = cartSlice.actions;
+export const {addItem, deleteItem,clearItems} = cartSlice.actions;
 export default cartSlice.reducer;
 
-
+// ,deletePizza было ддобавлено в EXPORT CONST
 
 
 

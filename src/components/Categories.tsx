@@ -1,14 +1,15 @@
 import React,{ useContext, useEffect,useState} from 'react'
-import { AppContext } from './App';
 
-import {useSelector,useDispatch} from 'react-redux'
+
+// import {useSelector,useDispatch} from 'react-redux'
 import { setCategory } from '../store/slices/filterSlice';
+import { useAppSelector,useAppDispatch } from '../hooks/redux';
 
 
 function Categories() {
     const categories = ['Все','Мясные','Вегетерианские','Гриль','Острые','Закрытые'];
- const activeCategory = useSelector((state)=>state.filter.category);
- const dispatch = useDispatch()
+ const activeCategory = useAppSelector((state)=>state.filter.category);
+ const dispatch = useAppDispatch()
 
   return (
     <div className="categories">

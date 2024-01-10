@@ -1,9 +1,11 @@
 import React, {memo} from 'react'
-import { useSelector } from 'react-redux';
-import { useLocation, useParams, Link } from 'react-router-dom';
-import PizzaBlock from '../components/PizzaBlock'
+// import { useSelector } from 'react-redux';
+import {useParams, Link } from 'react-router-dom';
+import PizzaBlock from '../components/PizzaBlock';
+import { useAppSelector } from '../hooks/redux';
+
 const Pizza = memo(function () {
-  const pizzas = useSelector((state)=>state.pizzas.items);
+  const pizzas = useAppSelector((state)=>state.pizzas.items);
   console.log(pizzas);
   // первый способ
   const {id} = useParams();
@@ -12,13 +14,14 @@ const Pizza = memo(function () {
   // const arr = location.pathname.split('/');
   // const id = arr[arr.length-1];
 
-  const pizza = pizzas.find(item => item.id==id);
+  const pizza = pizzas.find(item => item.id== Number(id));
 
  console.log(pizza);
 return (
   pizzas.length >0 &&
   <>
-  <PizzaBlock {... pizza} isTitleClikable={false}/>
+  {pizza && <PizzaBlock {... pizza} isTitleClikable={false}/>}
+  
   <Link to='/'
               className='button button--outline button--add go-back-btn'>
               <svg

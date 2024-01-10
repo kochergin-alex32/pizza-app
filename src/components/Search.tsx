@@ -1,15 +1,18 @@
 import React, { useRef  } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
+// import { useDispatch, useSelector } from 'react-redux';
 import { setSearch } from '../store/slices/filterSlice';
+import {useAppDispatch } from '../hooks/redux';
 
 function Search() {
-  const pizzas = useSelector(state=>state.pizzas.items);
- const dispatch = useDispatch();
-    const inputRef = useRef(null)
+  // const pizzas = useAppSelector(state=>state.pizzas.items);
+ const dispatch = useAppDispatch();
+    const inputRef = useRef<null | HTMLInputElement >(null)
 
 function searchHandler(){
+  if(inputRef.current){
   const value = inputRef.current.value;
-dispatch(setSearch(value));
+  dispatch(setSearch(value));
+}
 
 }
 

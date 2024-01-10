@@ -1,4 +1,4 @@
-import React, { createContext, useEffect,useState,Suspense } from 'react'
+import React, { createContext, useEffect,Suspense } from 'react'
 // import { Suspense } from 'react'
 import{Route,Link,Routes,useNavigate,useLocation, useRoutes}from 'react-router-dom'
 import useRoutesWraper from '../hooks/useRoutesWraper'
@@ -11,26 +11,27 @@ import {useSelector,useDispatch} from 'react-redux'
 import{fetchPizzas, setPizzas} from '../store/slices/pizzasSlice'
 import Pizza from '../Pages/Pizza'
 import Loader from './Loader'
+import { useAppSelector,useAppDispatch } from '../hooks/redux'
 
 
 
 
 
- export const AppContext = createContext()
+//  export const AppContext = createContext()
 
 function App({}) { 
 // создаем терперь юзселектор и записываем в него стейт фильтер
-  const activeCategory = useSelector((state)=>state.filter.category)
+  const activeCategory = useAppSelector((state)=>state.filter.category)
 
  
  
-  const pizzas = useSelector(state=>state.pizzas.items);
-  const search = useSelector(state=>state.filter.search);
-  const dispatch = useDispatch();
+  const pizzas = useAppSelector(state=>state.pizzas.items);
+  const search = useAppSelector(state=>state.filter.search);
+  const dispatch = useAppDispatch();
  
-  const{type,isUp}=useSelector(state=>state.filter.sort)
+  const{type,isUp}=useAppSelector(state=>state.filter.sort)
   
-  const[data,setData]= useState([])
+  // const[data,setData]= useState([]);
 
 
 

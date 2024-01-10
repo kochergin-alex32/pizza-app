@@ -1,20 +1,22 @@
 import React, { useCallback } from 'react';
 
-import { useDispatch, useSelector } from "react-redux";
+// import { useDispatch, useSelector } from "react-redux";
 import emptyCart from '../assets/img/empty-cart.png'
-import { addItem, deleteItem, deletePizza } from '../store/slices/cartSlice';
+import { addItem, deleteItem} from '../store/slices/cartSlice';
+import { useAppSelector,useAppDispatch} from '../hooks/redux';
+import { Type,Size,Pizza } from '../types/pizza';
 
 function CartContent() {
 
-  const cart = useSelector((state) => state.cart.items);
+  const cart = useAppSelector((state) => state.cart.items);
   console.log(cart);
-  const types = ["тонкое", "традиционное"];
-  const sizes = [26, 30, 40];
-  const dispatch = useDispatch()
-  const deleteItemHandler = useCallback((item)=>{
+  const types: Array<"тонкое" | "традиционное"> = ["тонкое", "традиционное"];
+  const sizes: Array<26 | 30 | 40>= [26, 30, 40];
+  const dispatch = useAppDispatch()
+  const deleteItemHandler = useCallback((item:Pick<Pizza,"id"|"imageUrl"|"title"|"price">&{activeSize:Size; activeType:Type})=>{
     dispatch(deleteItem(item))
   },[dispatch]);
-  const addItemHandler = useCallback((item)=>{
+  const addItemHandler = useCallback((item:Pick<Pizza,"id"|"imageUrl"|"title"|"price">&{activeSize:Size; activeType:Type})=>{
     dispatch(addItem(item))
   },[dispatch])
 

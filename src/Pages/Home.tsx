@@ -1,21 +1,22 @@
-import React,{memo,useState,useEffect,useCallback, useContext}from 'react'
+import React,{memo}from 'react'
 import Categories from '../components/Categories'
 import Sort from '../components/Sort'
 import PizzaBlock from '../components/PizzaBlock'
 import Skeleton from '../components/Skeleton'
-import { AppContext } from '../components/App'
-import { useDispatch, useSelector} from 'react-redux'
+// import { AppContext } from '../components/App';
+import { useAppSelector, useAppDispatch } from '../hooks/redux'
 
 
 const Home = memo(function () {
-  const pizzas = useSelector((state)=>state.pizzas.items);
-  const status = useSelector(state=> state.pizzas.status);
-  const error = useSelector(state=> state.pizzas.error)
+  const pizzas = useAppSelector((state)=>state.pizzas.items);
+  const status = useAppSelector(state=> state.pizzas.status);
+  // const error = useAppSelector(state=> state.pizzas.error)
   // console.log(pizzas);
-  const dispatch = useDispatch();
+  // закоментил сли что раскоментиьть
+  // const dispatch = useAppDispatch();
   // const {loading}= useContext(AppContext);
- 
-  const [isClick, seyIsClick]= useState(false)
+//  закоментил стейт если что раскоментить
+  // const [isClick, seyIsClick]= useState(false)
   
   
   return (
@@ -32,6 +33,8 @@ const Home = memo(function () {
    { status !== 'loading' && status !== 'rejected'  && (pizzas.length > 0 ?<h2 className="content__title">Все пиццы</h2>:<h2 className="content__title">не найдено 😢</h2>)}
    
    <div className="content__items">
+     {/* ниже коментарий чтобы игнорировать непонятную ошибку TS */}
+    {/* @ts-ignore */}
      {status == 'resolved' && status !== 'rejected' ?(
       pizzas.map(pizza =>(
        <PizzaBlock key={pizza.id} {...pizza}/>)

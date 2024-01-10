@@ -1,18 +1,20 @@
 import React,{memo,Suspense,lazy, useCallback} from "react";
-import { useDispatch, useSelector } from "react-redux";
+// import { useDispatch, useSelector } from "react-redux";
 // import CartContent from "../components/CartContent";
 import { Link } from "react-router-dom";
 import { clearItems } from "../store/slices/cartSlice";
 import Loader from "../components/Loader";
+import { useAppSelector,useAppDispatch } from "../hooks/redux";
 const CartContent = lazy(()=>import('../components/CartContent'))
+
 const Cart = memo(function () {
   // cart = [{id,qty},{id,title,count,price}]
-  const pizzas = useSelector((state) => state.pizzas.items);
-  const cart = useSelector((state) => state.cart.items);
+  // const pizzas = useAppSelector((state) => state.pizzas.items);
+  const cart = useAppSelector((state) => state.cart.items);
 
-  const total = useSelector(state => state.cart.total)
-  const count = useSelector(state => state.cart.count )
-  const dispatch = useDispatch();
+  const total = useAppSelector(state => state.cart.total)
+  const count = useAppSelector(state => state.cart.count )
+  const dispatch = useAppDispatch();
  
   // Вытащзить из пицц размеры все и типы
   const sizas = [];

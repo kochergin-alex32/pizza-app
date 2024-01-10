@@ -1,17 +1,29 @@
 import React,{useCallback, useMemo, useState} from 'react'
-import { useDispatch, useSelector } from 'react-redux';
+// import { useDispatch, useSelector } from 'react-redux';
 import { addItem } from '../store/slices/cartSlice';
 import { Link } from 'react-router-dom';
+import { Pizza, Size,Type } from '../types/pizza';
+import { useAppSelector,useAppDispatch } from '../hooks/redux';
 
 
 
-function PizzaBlock({id, imageUrl,title,types,sizes,price,category,rating,   isTitleClikable=true}) {
-  const cartItems = useSelector(state=>state.cart.items);
-  const dispatch = useDispatch()
+function PizzaBlock({
+   id,
+   imageUrl,
+   title,
+   types,
+   sizes,
+   price,
+   category,
+   rating,
+   isTitleClikable=true,
+  }:Pizza & {isTitleClikable?:boolean}) {
+  const cartItems = useAppSelector(state=>state.cart.items);
+  const dispatch = useAppDispatch()
   
   
-  const[activeSize, setActiveSize] = useState(0);
-  const[activeType, setActiveType] = useState(types[0]);
+  const[activeSize, setActiveSize] = useState<Size>(0);
+  const[activeType, setActiveType] = useState<Type>(types[0]);
   
   const item  = {
     id,
@@ -20,11 +32,11 @@ function PizzaBlock({id, imageUrl,title,types,sizes,price,category,rating,   isT
      price,
      activeSize,
      activeType, 
-  
+    
     }
   
   // let qty;
-  const [ind,qty] = useMemo(()=>{
+  const qty:number = useMemo(()=>{
    let qty=0
     const ind = cartItems.findIndex(item => item.id == id);
     // console.log('memo');
@@ -33,20 +45,20 @@ function PizzaBlock({id, imageUrl,title,types,sizes,price,category,rating,   isT
       qty = cartItems[ind].totalQty;
       // console.log('qty');
     }
-    return [ind,qty];
+    return qty;
   },[id,cartItems])
 
-  const changeTypeHandler = useCallback((type)=>{
+  const changeTypeHandler = useCallback((type:Type)=>{
     
       setActiveType(type)
     
   },[]);
   
-    const handlerSize = useCallback((ind)=>{
+    const handlerSize = useCallback((ind:Size)=>{
       setActiveSize(ind)
     },[]);
 
-    const addItemHandler = useCallback((item)=>{
+    const addItemHandler = useCallback((item:Pick<Pizza,"id"|"imageUrl"|"title"|"price">&{activeSize:Size; activeType:Type})=>{
       dispatch(addItem(item))
     },[dispatch])
 
@@ -99,7 +111,7 @@ function PizzaBlock({id, imageUrl,title,types,sizes,price,category,rating,   isT
         {
             sizes.map((size,ind)=>(
                 
-                <li onClick={()=>handlerSize(ind)} key={size} className={ind==activeSize? 'active':''}>{size} см.</li>
+                <li onClick={()=>handlerSize(ind as Size)} key={size} className={ind==activeSize? 'active':''}>{size} см.</li>
 
             ))
         }

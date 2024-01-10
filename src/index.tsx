@@ -10,11 +10,11 @@ import{ BrowserRouter}from 'react-router-dom'
 import { Provider } from 'react-redux';
 import { store } from './store';
 
-function Wrapper({children}){
-    return children
-}
+// function Wrapper({children}){
+//     return children
+// }
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
     // оборачиваем наш апп  в импортированный провайдер
  <BrowserRouter>

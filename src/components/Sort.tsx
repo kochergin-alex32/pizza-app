@@ -1,12 +1,14 @@
-import React,{useRef,useState, useContext} from 'react'
-import { useDispatch, useSelector } from 'react-redux';
-import { AppContext } from '../components/App'
+import React,{useState} from 'react'
+// import { useDispatch, useSelector } from 'react-redux';
+// import { AppContext } from '../components/App'
 import { setSort } from '../store/slices/filterSlice';
+import { useAppSelector, useAppDispatch } from '../hooks/redux';
+import { Type } from '../types/pizza';
 
 function Sort() {
-  const {type,isUp} = useSelector(state=>state.filter.sort)
-  const dispatch = useDispatch()
-  const sortTypes = ['популярности', 'цене', 'алфавиту'];
+  const {type,isUp} = useAppSelector(state=>state.filter.sort)
+  const dispatch = useAppDispatch()
+  const sortTypes:[string,string,string]= ['популярности', 'цене', 'алфавиту'];
  
  const [isOpen,setIsOpen]=useState(false);
 
@@ -58,8 +60,8 @@ let svgStyle = (!isUp)? 'sortSvg sortSvg__sort-down':'sortSvg';
               (<div className="sort__popup">
                 <ul>
                   {
-                    sortTypes.map((type,ind)=>(
-                      <li onClick={()=>{dispatch(setSort({type:ind,isUp:isUp }));setIsOpen(false)}} key={ind} className={type==ind ? 'active': ''}>{type}</li>
+                    sortTypes.map((typeSort,ind)=>(
+                      <li onClick={()=>{dispatch(setSort({type:ind as Type,isUp:isUp }));setIsOpen(false)}} key={ind} className={type==ind ? 'active': ''}>{typeSort}</li>
                     ))
                   }
                  
